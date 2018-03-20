@@ -78,7 +78,7 @@ class Adyen_Payment_Model_Adyen_Data_PaymentRequest extends Adyen_Payment_Model_
         // override amount because this amount uses the right currency
 
         $realOrderId = $order->getRealOrderId();
-		
+
 		$customerId = Mage::helper('adyen/payment')->getShopperReference($order->getCustomerId(), $realOrderId);
 
         $this->reference = $incrementId;
@@ -139,7 +139,7 @@ class Adyen_Payment_Model_Adyen_Data_PaymentRequest extends Adyen_Payment_Model_
             case "cc":
             case "oneclick":
             case "multibanco":
-                
+
                 $this->bankAccount = null;
 
                 $billingAddress = $order->getBillingAddress();
@@ -157,7 +157,8 @@ class Adyen_Payment_Model_Adyen_Data_PaymentRequest extends Adyen_Payment_Model_
 
                     $this->billingAddress = new Adyen_Payment_Model_Adyen_Data_BillingAddress();
                     $this->billingAddress->street = $billingAddress->getStreet(1);
-                    $this->billingAddress->houseNumberOrName = '';
+                    $additionalBillingAddressInformation = $billingAddress->getStreet(2).' '.$billingAddress->getStreet(3);
+                    $this->billingAddress->houseNumberOrName = trim($additionalBillingAddressInformation);
                     $this->billingAddress->city = $billingAddress->getCity();
                     $this->billingAddress->postalCode = $billingAddress->getPostcode();
                     $this->billingAddress->stateOrProvince = $billingAddress->getRegionCode();
@@ -169,7 +170,8 @@ class Adyen_Payment_Model_Adyen_Data_PaymentRequest extends Adyen_Payment_Model_
                 {
                     $this->deliveryAddress = new Adyen_Payment_Model_Adyen_Data_DeliveryAddress();
                     $this->deliveryAddress->street = $deliveryAddress->getStreet(1);
-                    $this->deliveryAddress->houseNumberOrName = '';
+                    $additionalDeliveryAddressInformation = $deliveryAddress->getStreet(2).' '.$deliveryAddress->getStreet(3);
+                    $this->deliveryAddress->houseNumberOrName = trim($additionalDeliveryAddressInformation);
                     $this->deliveryAddress->city = $deliveryAddress->getCity();
                     $this->deliveryAddress->postalCode = $deliveryAddress->getPostcode();
                     $this->deliveryAddress->stateOrProvince = $deliveryAddress->getRegionCode();
