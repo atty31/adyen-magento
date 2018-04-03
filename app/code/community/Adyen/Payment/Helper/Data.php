@@ -607,4 +607,14 @@ class Adyen_Payment_Helper_Data extends Mage_Payment_Helper_Data
 
         return $collection->getSize();
     }
+
+    /**
+     * Send all address fields for ranking
+     * @param int $storeId
+     * @return bool
+     */
+    public function sendAllAddressFields(int $storeId)
+    {
+        return (bool) Mage::getStoreConfig('payment/adyen_abstract/address_fields', $storeId);
+    }
 }

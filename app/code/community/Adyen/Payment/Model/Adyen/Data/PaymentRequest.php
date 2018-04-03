@@ -157,8 +157,10 @@ class Adyen_Payment_Model_Adyen_Data_PaymentRequest extends Adyen_Payment_Model_
 
                     $this->billingAddress = new Adyen_Payment_Model_Adyen_Data_BillingAddress();
                     $this->billingAddress->street = $billingAddress->getStreet(1);
-                    $additionalBillingAddressInformation = $billingAddress->getStreet(2).' '.$billingAddress->getStreet(3);
-                    $this->billingAddress->houseNumberOrName = trim($additionalBillingAddressInformation);
+                    $this->billingAddress->houseNumberOrName = '';
+                    if (Mage::helper('adyen/payment')->sendAllAddressFields($order->getStoreId())) {
+                        $this->billingAddress->houseNumberOrName = trim($billingAddress->getStreet(2) . ' ' . $billingAddress->getStreet(3));
+                    }
                     $this->billingAddress->city = $billingAddress->getCity();
                     $this->billingAddress->postalCode = $billingAddress->getPostcode();
                     $this->billingAddress->stateOrProvince = $billingAddress->getRegionCode();
@@ -170,8 +172,10 @@ class Adyen_Payment_Model_Adyen_Data_PaymentRequest extends Adyen_Payment_Model_
                 {
                     $this->deliveryAddress = new Adyen_Payment_Model_Adyen_Data_DeliveryAddress();
                     $this->deliveryAddress->street = $deliveryAddress->getStreet(1);
-                    $additionalDeliveryAddressInformation = $deliveryAddress->getStreet(2).' '.$deliveryAddress->getStreet(3);
-                    $this->deliveryAddress->houseNumberOrName = trim($additionalDeliveryAddressInformation);
+                    $this->deliveryAddress->houseNumberOrName = '';
+                    if (Mage::helper('adyen/payment')->sendAllAddressFields($order->getStoreId())) {
+                        $this->deliveryAddress->houseNumberOrName = trim($deliveryAddress->getStreet(2) . ' ' . $deliveryAddress->getStreet(3));
+                    }
                     $this->deliveryAddress->city = $deliveryAddress->getCity();
                     $this->deliveryAddress->postalCode = $deliveryAddress->getPostcode();
                     $this->deliveryAddress->stateOrProvince = $deliveryAddress->getRegionCode();
